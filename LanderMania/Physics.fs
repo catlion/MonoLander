@@ -6,7 +6,7 @@ open System.Diagnostics
 
 let scale (v : float32) = v / 300.0f
 
-let addGravity (planet : Planet) (ship : Ship) = 
+let addGravity (gameTime: GameTime) (planet : Planet) (ship : Ship) = 
     let g = planet.Gravity |> scale
     ship.Pos <- Vector2.Add(ship.Speed, ship.Pos)
     if ship.Accel.Y < g then ship.Accel.Y <- g

@@ -20,9 +20,9 @@ let defaultShip =
 let defaultPlanet = 
     { Gravity = 9.8f
       Surface = 
-          [| Vector2(-1.f, 1.f)
-             Vector2(1.f, -1.f)
-             Vector2(-1.f, -1.f) |] }
+          [| Vector2(0.f, 1.f)
+             Vector2(1.5f, 0.f)
+             Vector2(-1.5f, 0.f) |] }
 
 type Lander() as this = 
     inherit Game()
@@ -42,7 +42,7 @@ type Lander() as this =
     /// <summary> </summary>
     override this.Initialize() = 
         rs.CullMode <- CullMode.None
-        rs.FillMode <- FillMode.WireFrame
+        //rs.FillMode <- FillMode.WireFrame
         //this.GraphicsDevice.RasterizerState <- rs
         base.Initialize()
     
@@ -55,16 +55,16 @@ type Lander() as this =
         base.LoadContent()
     
     /// <summary> </summary>
-    override this.Update(gameTime) = Physics.addGravity planet.Agent ship.Agent
+    override this.Update(gameTime) = Physics.addGravity gameTime planet.Agent ship.Agent
     
     /// <summary> </summary>
     override this.Draw(gameTime) = 
-        this.GraphicsDevice.Clear Color.CadetBlue
-        sfcv.Draw()
+        this.GraphicsDevice.Clear Color.CornflowerBlue
         spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend)
         spriteBatch.Draw(planet.Texture, Rectangle(0, h - 100.0f |> int, int w, 100), Color.White)
         spriteBatch.Draw(ship.Texture, ship.Agent.Pos, Color.White)
         spriteBatch.End()
+        sfcv.Draw()
         base.Draw(gameTime)
     
     interface IDisposable with
