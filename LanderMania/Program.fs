@@ -1,6 +1,7 @@
 ﻿module LanderMania.Program
 
 open Agents
+open Landscape
 open Microsoft.Xna.Framework
 open Microsoft.Xna.Framework.Content
 open Microsoft.Xna.Framework.Graphics
@@ -19,10 +20,11 @@ let defaultShip =
 
 let defaultPlanet = 
     { Gravity = 9.8f
-      Surface = 
-          [| Vector2(0.f, 1.f)
-             Vector2(1.5f, 0.f)
-             Vector2(-1.5f, 0.f) |] }
+      Surface = generateLandscape (w, h) }
+//      Surface = 
+//          [| Vector2(0.f, 0.f)
+//             Vector2(200.f, 0.f)
+//             Vector2(100.f, 100.f) |] }
 
 type Lander() as this = 
     inherit Game()
@@ -41,9 +43,11 @@ type Lander() as this =
     
     /// <summary> </summary>
     override this.Initialize() = 
-        rs.CullMode <- CullMode.None
-        //rs.FillMode <- FillMode.WireFrame
-        //this.GraphicsDevice.RasterizerState <- rs
+//        rs.CullMode <- CullMode.None
+//        rs.FillMode <- FillMode.Solid
+//        this.GraphicsDevice.RasterizerState <- rs
+        this.GraphicsDevice.VertexSamplerStates.[0] <- SamplerState.PointWrap
+        this.GraphicsDevice.SamplerStates.[0] <- SamplerState.PointWrap
         base.Initialize()
     
     /// <summary> </summary>
@@ -61,7 +65,7 @@ type Lander() as this =
     override this.Draw(gameTime) = 
         this.GraphicsDevice.Clear Color.CornflowerBlue
         spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend)
-        spriteBatch.Draw(planet.Texture, Rectangle(0, h - 100.0f |> int, int w, 100), Color.White)
+        //spriteBatch.Draw(planet.Texture, Rectangle(0, h - 100.0f |> int, int w, 100), Color.White)
         spriteBatch.Draw(ship.Texture, ship.Agent.Pos, Color.White)
         spriteBatch.End()
         sfcv.Draw()

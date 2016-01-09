@@ -52,6 +52,7 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Landscape.fs" />
     <Compile Include="Agents.fs" />
     <Compile Include="Physics.fs" />
     <Compile Include="Program.fs" />

@@ -37,18 +37,18 @@ type LineDrawer(ai : Vector2 array) =
         do gd <- gd'
            ai 
            |> Array.iteri 
-                  (fun i x -> do verts.[i] <- VertexPositionColor(Vector3(x, 0.f), Color.White))
+                  (fun i x -> 
+                  do verts.[i] <- VertexPositionColor
+                                      (Vector3(Vector2(w - x.X, h - x.Y), 0.f), Color.SaddleBrown))
            eff <- new BasicEffect(gd)
            eff.VertexColorEnabled <- true
            eff.World <- Matrix.Identity
            eff.View <- Matrix.CreateLookAt(Vector3(0.f, 0.f, 10.f), Vector3.Zero, Vector3.Up)
-           eff.Projection <- Matrix.CreatePerspectiveFieldOfView
-                                 (MathHelper.PiOver4, gd.Viewport.AspectRatio, 1.f, 1000.f)
+           let halfPixOff = Matrix.CreateTranslation(0.5f, -0.5f, 0.f)
+           eff.Projection <- Matrix.op_Multiply 
+                                 (halfPixOff, 
+                                  Matrix.CreateOrthographicOffCenter(0.f, w, h, 0.f, 0.1f, 1000.f))
     
-    //           vbuf <- new VertexBuffer(gd, VertexPositionColor.VertexDeclaration, ai.Length, 
-    //                                    BufferUsage.WriteOnly)
-    //           vbuf.SetData(verts)
-    //           gd.SetVertexBuffer(vbuf)
     member __.Draw() = 
         for pass in eff.CurrentTechnique.Passes do
             pass.Apply()
@@ -56,6 +56,5 @@ type LineDrawer(ai : Vector2 array) =
     
     member __.Dispose() = (__ :> IDisposable).Dispose()
     interface IDisposable with
-        member __.Dispose() = 
-            //vbuf.Dispose()
-            ()
+        member __.Dispose() = ()
+//vbuf.Dispose()
