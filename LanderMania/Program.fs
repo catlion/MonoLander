@@ -53,8 +53,8 @@ type Lander() as this =
     /// <summary> </summary>
     override this.LoadContent() = 
         spriteBatch <- new SpriteBatch(this.GraphicsDevice)
-        ship <- Textured<Ship>(this.Content, "ship.png", defaultShip)
-        planet <- Textured<Planet>(this.Content, "tile.png", defaultPlanet)
+        ship <- Textured<Ship>(this.GraphicsDevice, "ship.png", defaultShip)
+        planet <- Textured<Planet>(this.GraphicsDevice, "tile.png", defaultPlanet)
         sfcv.Initialize(this.GraphicsDevice, w, h, planet.Texture)
         base.LoadContent()
     

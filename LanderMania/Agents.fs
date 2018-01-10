@@ -7,8 +7,10 @@ open System
 
 let ZeroVect = Vector2.Zero
 
-type Textured<'T>(m : ContentManager, res : string, a : 'T) = 
-    member __.Texture : Texture2D = m.Load(res)
+type Textured<'T>(m : GraphicsDevice, res : string, a : 'T) = 
+    member __.Texture : Texture2D = 
+            use stream = TitleContainer.OpenStream res
+            Texture2D.FromStream(m, stream)
     member __.Agent = a
 
 type Ship = 
